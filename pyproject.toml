@@ -97,4 +97,4 @@ line-ending = "auto"
 ignore_missing_imports = true
 warn_unreachable = true
 warn_unused_ignores = true
-pretty = true # Nice formatting for error messages
+pretty = true                 # Nice formatting for error messages

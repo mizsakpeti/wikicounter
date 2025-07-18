@@ -10,8 +10,12 @@ Tasks when setting up the project
 
 ## Development
 
-- [ ] Implement the word counting functionality with tests
+- [x] Implement the word counting functionality with tests
 - [ ] Add the Wikipedia API integration
 - [ ] Implement the FastAPI service
 - [ ] Add tests for the FastAPI service
 - [ ] Increase the performance of the Wikipedia API integration (async io)
+
+## Improvements
+
+- [ ] Better text-processing for word counting for special characters. How to define a word?
