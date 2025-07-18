@@ -1,0 +1,23 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+
+# Distribution / packaging
+dist/
+*.egg-info/
+
+# Environments
+.env
+.venv
+env/
+venv/
+
+# Tools
+.ruff_cache/
+.pytest_cache/
+.mypy_cache/
+
+# Playground files
+playground/
+
+# IDE
+.vscode/

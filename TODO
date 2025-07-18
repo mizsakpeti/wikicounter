@@ -1,0 +1,17 @@
+# Project TODO
+
+## Setup
+
+Tasks when setting up the project
+
+- [x] Update the fields in the `pyproject.toml` file
+- [ ] Update the README.md file
+- [x] Update the LICENSE file (if needed)
+
+## Development
+
+- [ ] Implement the word counting functionality with tests
+- [ ] Add the Wikipedia API integration
+- [ ] Implement the FastAPI service
+- [ ] Add tests for the FastAPI service
+- [ ] Increase the performance of the Wikipedia API integration (async io)

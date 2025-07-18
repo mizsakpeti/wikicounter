@@ -1,0 +1,100 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+####################
+# MARK:  Project
+####################
+
+[project]
+name = "wikicounter"
+description = "API service to get word-frequency from Wikipedia articles"
+keywords = ["wikipedia", "frequency", "word count", "text analysis"]
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+authors = [{ name = "Peter Mizsak", email = "peter@mizsak.hu" }]
+classifiers = [
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dynamic = ["readme", "version"]
+
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["mypy", "pytest", "ruff"]
+
+[project.urls]
+Source = "https://github.com/mizsakpeti/wikicounter"
+Tracker = "https://github.com/mizsakpeti/wikicounter/issues"
+
+[tool.setuptools.dynamic]
+readme = { file = "README.md", content-type = "text/markdown" }
+version = { attr = "wikicounter.__version__" }
+
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+
+####################
+# MARK:  ruff
+####################
+[tool.ruff]
+src = ["src", "tests"]
+line-length = 100
+target-version = "py311"
+indent-width = 4
+
+[tool.ruff.lint]
+select = ["ALL"] # Select all rules, then ignore specific ones
+ignore = [
+    "D203",  # one-blank-line-before-class
+    "D212",  # multi-line-summary-first-line
+    "E501",  # line too long (handled by formatter)
+    "FIX",   # flake8-fixme
+    "INP",   # flake8-no-pep420
+    "S104",  # hardcoded-bind-all-interfaces
+    "TD002", # missing-todo-author
+    "TD003", # missing-todo-link
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401", "D104"] # Unused imports, undocumented-public-package
+"tests/**/*.py" = [
+    "ANN001",  # missing-type-function-argument
+    "ANN201",  # missing-return-type-undocumented-public-function
+    "D",       # pydocstyle
+    "PLR2004", # magic-value-comparison
+    "PT001",   # pytest-fixture-incorrect-parentheses-style
+    "S101",    # assert
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.isort]
+known-third-party = []
+known-local-folder = ["wikicounter"]
+
+[tool.ruff.lint.pylint]
+max-args = 6
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+
+
+####################
+# MARK:  mypy
+####################
+[tool.mypy]
+
+ignore_missing_imports = true
+warn_unreachable = true
+warn_unused_ignores = true
+pretty = true # Nice formatting for error messages
