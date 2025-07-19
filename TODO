@@ -11,7 +11,7 @@ Tasks when setting up the project
 ## Development
 
 - [x] Implement the word counting functionality with tests
-- [ ] Add the Wikipedia API integration
+- [x] Add the Wikipedia API integration
 - [ ] Implement the FastAPI service
 - [ ] Add tests for the FastAPI service
 - [ ] Increase the performance of the Wikipedia API integration (async io)
@@ -19,3 +19,4 @@ Tasks when setting up the project
 ## Improvements
 
 - [ ] Better text-processing for word counting for special characters. How to define a word?
+- [ ] Verify if the full text of the page is retrieved correctly

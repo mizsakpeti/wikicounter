@@ -22,7 +22,7 @@ classifiers = [
 ]
 dynamic = ["readme", "version"]
 
-dependencies = []
+dependencies = ["Wikipedia-API==0.8.1"]
 
 [project.optional-dependencies]
 dev = ["mypy", "pytest", "ruff"]
