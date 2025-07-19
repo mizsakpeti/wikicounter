@@ -12,6 +12,12 @@ from wikicounter.counting import (
 )
 
 
+@pytest.fixture(name="word_counter")
+def fixture_word_counter() -> Counter:
+    """Fixture for a sample word counter."""
+    return Counter({"hello": 5, "world": 3, "test": 2})
+
+
 def test_count_words__basic() -> None:
     """Test basic word counting functionality with cases, our punctuation, and duplicates."""
     text = "Hello, HELLO world! This is a test. Is it working??"
@@ -79,10 +85,9 @@ def test_normalize_word_wikipedia_specific():
     assert _normalize_word("$E=mc^2$") == "emc2"
 
 
-def test_create_frequency_dict__basic():
+def test_create_frequency_dict__basic(word_counter):
     """Test creating frequency dictionary with basic input and no limit."""
-    word_counter = Counter({"hello": 5, "world": 3, "test": 2})
-    result = create_frequency_dict(word_counter, limit_percent=0)
+    result = create_frequency_dict(word_counter)
     expected = {
         "hello": WordFrequency(word_count=5, frequency_percent=50),
         "world": WordFrequency(word_count=3, frequency_percent=30),
@@ -99,24 +104,38 @@ def test_create_frequency_dict__empty_counter():
     assert result == expected
 
 
-def test_create_frequency_dict__with_limit():
-    """Test that limit_percent correctly filters out words below threshold."""
-    word_counter = Counter({"hello": 5, "world": 3, "test": 2})
+def test_create_frequency_dict__with_limit(word_counter):
+    """Test that percentile filtering works correctly."""
 
-    # With a limit of 30%, 'test' should be filtered out
-    result = create_frequency_dict(word_counter, limit_percent=30)
+    # With a limit of 30 percentile, 'test' should be filtered out
+    result = create_frequency_dict(word_counter, percentile=30)
 
     assert "test" not in result
-    # The percentage is calculated based on the total count
+    # The percentage is still calculated based on the total count
     assert result["hello"] == WordFrequency(word_count=5, frequency_percent=50.0)
     assert result["world"] == WordFrequency(word_count=3, frequency_percent=30.0)
 
 
-def test_create_frequency_dict__with_high_limit():
+def test_create_frequency_dict__with_high_limit(word_counter):
     """Test with a limit that filters out all words."""
-    word_counter = Counter({"hello": 5, "world": 3, "test": 2})
 
-    # With a limit of 99.0, all words should be filtered out
-    result = create_frequency_dict(word_counter, limit_percent=99.0)
+    # With a limit of 99, only the most frequent word should remain
+    result = create_frequency_dict(word_counter, percentile=99)
+    expected = {
+        "hello": WordFrequency(word_count=5, frequency_percent=50),
+    }
 
-    assert result == {}
+    assert result == expected
+
+
+def test_create_frequency_dict__with_low_limit(word_counter):
+    """Test with a limit that filters out all words."""
+
+    # With a limit of 1, all words should remain
+    result = create_frequency_dict(word_counter, percentile=1)
+    expected = {
+        "hello": WordFrequency(word_count=5, frequency_percent=50),
+        "world": WordFrequency(word_count=3, frequency_percent=30),
+        "test": WordFrequency(word_count=2, frequency_percent=20),
+    }
+    assert result == expected

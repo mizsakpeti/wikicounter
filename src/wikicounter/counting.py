@@ -54,35 +54,36 @@ def _normalize_word(text: str) -> str:
 
 def create_frequency_dict(
     word_counter: Counter,
-    limit_percent: float = 0,
-    *,
-    ordered: bool = True,
+    percentile: float = 0,
 ) -> dict[str, WordFrequency]:
     """
-    Creates a frequency dictionary from a Counter object.
+    Creates a frequency dictionary from a word counter.
+
+    If `percentile` is specified, only words in the top X percentile by frequency are included.
+    If `percentile` is set to 90, only the top 10% of words by frequency will be included.
 
     Args:
-        word_counter (Counter): A Counter object containing word counts.
-        limit_percent (float): The percentage of the total count to consider for frequency calculation.
-        ordered (bool): If True, the dictionary will be sorted by word count in descending order.
+        word_counter (Counter): Counter object with word counts.
+        percentile (float): Only include words in the top X percentile by frequency.
 
     Returns:
-        dict[str, WordFrequency]: A dictionary mapping words to their WordFrequency.
+        dict[str, WordFrequency]: A dictionary mapping words to their frequency information.
     """
-    total_count = sum(word_counter.values())
-    limit_count = (total_count * limit_percent) / 100
+    total_words = sum(word_counter.values())
 
-    frequency_dict = {}
-    for word, count in word_counter.items():
-        if count >= limit_count:
-            frequency_dict[word] = WordFrequency(
-                word_count=count,
-                frequency_percent=(count / total_count) * 100,
-            )
+    # Sort words by frequency (highest to lowest)
+    sorted_words = sorted(word_counter.items(), key=lambda x: x[1], reverse=True)
 
-    if ordered:
-        frequency_dict = dict(
-            sorted(frequency_dict.items(), key=lambda item: item[1].word_count, reverse=True),
-        )
+    # Calculate how many words to keep based on percentile
+    if percentile > 0:
+        # Convert percentile to actual number of items to keep
+        num_unique_words = len(sorted_words)
+        keep_count = _calculate_keep_count(num_unique_words, percentile)
+        sorted_words = sorted_words[:keep_count]
 
-    return frequency_dict
+    return {word: WordFrequency(count, (count / total_words) * 100) for word, count in sorted_words}
+
+
+def _calculate_keep_count(item_count: int, percentile: float) -> int:
+    """Calculate the number of items to keep based on the specified percentile."""
+    return max(1, int((item_count + 1) * (100 - percentile) / 100))
