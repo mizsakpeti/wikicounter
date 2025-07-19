@@ -15,6 +15,10 @@ class WordFrequency(NamedTuple):
     word_count: int
     frequency_percent: float
 
+    def __str__(self) -> str:
+        """String representation of the WordFrequency for display."""
+        return f"{self.word_count} ({self.frequency_percent:.2f}%)"
+
 
 def count_words(text: str, ignore_words: Iterable[str] | None = None) -> Counter:
     """
@@ -51,6 +55,8 @@ def _normalize_word(text: str) -> str:
 def create_frequency_dict(
     word_counter: Counter,
     limit_percent: float = 0,
+    *,
+    ordered: bool = True,
 ) -> dict[str, WordFrequency]:
     """
     Creates a frequency dictionary from a Counter object.
@@ -58,6 +64,7 @@ def create_frequency_dict(
     Args:
         word_counter (Counter): A Counter object containing word counts.
         limit_percent (float): The percentage of the total count to consider for frequency calculation.
+        ordered (bool): If True, the dictionary will be sorted by word count in descending order.
 
     Returns:
         dict[str, WordFrequency]: A dictionary mapping words to their WordFrequency.
@@ -72,5 +79,10 @@ def create_frequency_dict(
                 word_count=count,
                 frequency_percent=(count / total_count) * 100,
             )
+
+    if ordered:
+        frequency_dict = dict(
+            sorted(frequency_dict.items(), key=lambda item: item[1].word_count, reverse=True),
+        )
 
     return frequency_dict
