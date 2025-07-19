@@ -7,6 +7,7 @@ Module to connect to a wikipedia API and retrieve page content.
 
 import logging
 from collections import Counter
+from collections.abc import Iterable
 from typing import NamedTuple
 
 from wikipediaapi import Wikipedia
@@ -52,6 +53,7 @@ def walk_pages(
     depth: int = 0,
     word_counter: Counter | None = None,
     visited: set[str] | None = None,
+    ignore_words: Iterable[str] | None = None,
 ) -> Counter:
     """
     Recursively walks through Wikipedia pages starting from a given page title.
@@ -62,6 +64,7 @@ def walk_pages(
         depth (int, optional): The current depth in the traversal. Defaults to 0.
         word_counter (Counter | None, optional): A Counter object to accumulate word counts. Defaults to None.
         visited (set[str] | None, optional): A set of visited page titles to avoid cycles. Defaults to None.
+        ignore_words (Iterable[str] | None, optional): A set of words to ignore in the count. Defaults to None.
 
     Returns:
         Counter: A Counter object containing the word counts from all visited pages.
@@ -74,12 +77,19 @@ def walk_pages(
 
     visited.add(page_title)
     content, links = get_page_content(page_title)
-    word_counter += count_words(content, ignore_words=set())
+    word_counter += count_words(content, ignore_words)
     __logger.debug("Visited: '%s' (depth: %d)", page_title, depth)
     __logger.debug("Number of links found: %d", len(links))
 
     # TODO: parallelize this to speed up the process
     for link in links:
         if link not in visited and (depth + 1) <= max_depth:
-            word_counter = walk_pages(link, max_depth, depth + 1, word_counter, visited)
+            word_counter = walk_pages(
+                link,
+                max_depth,
+                depth + 1,
+                word_counter,
+                visited,
+                ignore_words,
+            )
     return word_counter
