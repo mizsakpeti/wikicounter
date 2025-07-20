@@ -98,3 +98,10 @@ ignore_missing_imports = true
 warn_unreachable = true
 warn_unused_ignores = true
 pretty = true                 # Nice formatting for error messages
+
+####################
+# MARK:  pytest
+####################
+
+[tool.pytest.ini_options]
+markers = ["slow: marks tests as slow (deselect with '-m \"not slow\"')"]
