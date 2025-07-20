@@ -1,8 +1,4 @@
-"""
-Counting logic for the wikicounter project.
-
-@author: MizsakPeti
-"""
+"""Counting logic for the wikicounter project."""
 
 from collections import Counter
 from collections.abc import Iterable
@@ -81,7 +77,10 @@ def create_frequency_dict(
         keep_count = _calculate_keep_count(num_unique_words, percentile)
         sorted_words = sorted_words[:keep_count]
 
-    return {word: WordFrequency(count, (count / total_words) * 100) for word, count in sorted_words}
+    return {
+        word: WordFrequency(count, round((count / total_words) * 100, 4))
+        for word, count in sorted_words
+    }
 
 
 def _calculate_keep_count(item_count: int, percentile: float) -> int:
