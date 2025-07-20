@@ -4,20 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ---
 
-## [Unreleased] - YYYY-MM-DD
+## [0.1.0] - 2025-07-20
 
 ### Added
 
-- New feature descriptions.
-
-### Changed
-
-- Changes to existing features.
-
-### Fixed
-
-- Bug fixes.
-
-### Removed
-
-- Deprecated features that have been removed.
+- Initial implementation of the word counting functionality
+- Setting up the FastAPI service
+- Basic Wikipedia API integration for article retrieval
