@@ -5,7 +5,7 @@
 Tasks when setting up the project
 
 - [x] Update the fields in the `pyproject.toml` file
-- [ ] Update the README.md file
+- [x] Update the README.md file
 - [x] Update the LICENSE file (if needed)
 
 ## Development
