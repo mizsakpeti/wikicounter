@@ -62,3 +62,25 @@ jobs:
     - name: Test with pytest
       run: |
         pytest tests/
+
+    - name: Check test coverage
+      run: |
+        pytest\
+          --cov=tests\
+          --cov-fail-under=95\
+          --cov-report=term-missing
+
+    - name: Check code coverage
+      run: |
+        pytest\
+          --cov=src\
+          --cov-fail-under=80\
+          --cov-report=term-missing\
+          --cov-report=html:coverage_html_report
+
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v4
+      if: matrix.python-version == '3.11'
+      with:
+        name: coverage-report
+        path: coverage_html_report
