@@ -66,9 +66,7 @@ def create_frequency_dict(
         dict[str, WordFrequency]: A dictionary mapping words to their frequency information.
     """
     total_words = sum(word_counter.values())
-
-    # Sort words by frequency (highest to lowest)
-    sorted_words = sorted(word_counter.items(), key=lambda x: x[1], reverse=True)
+    sorted_words = word_counter.most_common()
 
     # Calculate how many words to keep based on percentile
     if percentile > 0:
