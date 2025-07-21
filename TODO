@@ -15,8 +15,12 @@ Tasks when setting up the project
 - [x] Implement the FastAPI service
 - [x] Add tests for the FastAPI service
 - [ ] Increase the performance of the Wikipedia API integration (async io)
+  - With the current implementation using `Wikipedia-API`, the async support is limited.
+  - WikiMedia has rate limits, so we need to be careful with the number of requests.
+  - Accessing all the links on a page can be slow, especially if the page has many links.
 
 ## Improvements
 
 - [ ] Better text-processing for word counting for special characters. How to define a word?
 - [ ] Verify if the full text of the page is retrieved correctly
+- [ ] Containerize the application for easier deployment

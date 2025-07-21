@@ -9,6 +9,7 @@ A Python FastAPI service to analyze word frequencies from Wikipedia articles, wi
   - [Running the API - Development Mode](#running-the-api---development-mode)
   - [API Endpoints](#api-endpoints)
 - [Features](#features)
+- [Limitations and Future Work](#limitations-and-future-work)
 - [License](#license)
 - [Contact](#contact)
 
@@ -40,6 +41,8 @@ Once running, you can access:
 
 - API documentation: [http://localhost:8000/docs](http://localhost:8000/docs)
 - Alternative documentation: [http://localhost:8000/redoc](http://localhost:8000/redoc)
+
+FastAPI provides an interactive interface to test the endpoints on both the Swagger and ReDoc pages.
 
 ### API Endpoints
 
@@ -148,6 +151,14 @@ curl -X 'POST' \
   - Ignore common words with custom ignore lists
   - Focus on most relevant words with percentile-based filtering
 - 📈 **Performance Metrics:** Includes time elapsed for each request
+
+## Limitations and Future Work
+
+Some features were not implemented as part of the initial homework scope. For detailed information on planned improvements, see the [TODO.md](TODO.md) file.
+
+- **Asynchronous Implementation:** The current version does not leverage FastAPI's async capabilities as the underlying Wikipedia API is not async-ready.
+- **Word Normalization:** The word processing can be improved with more sophisticated normalization techniques based on specific requirements (lemmatization, stop words removal, etc.).
+- **Production Deployment:** The application needs to be containerized with Docker for production deployment.
 
 ## License
 
